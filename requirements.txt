@@ -1,0 +1,9 @@
+functions-framework==3.*
+langchain
+openai
+pytest
+pytest-xdist
+firebase_admin
+sympy
+numpy
+anthropic
