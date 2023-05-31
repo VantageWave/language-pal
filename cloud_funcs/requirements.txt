@@ -1,7 +1,4 @@
 functions-framework==3.*
 langchain
-openai
 firebase_admin
-sympy
-numpy
 anthropic
