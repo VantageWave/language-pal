@@ -1,4 +1,4 @@
-from solvers.text_analyzer import summarize
+from solvers.text_analyzer import summarize, ask_question
 
 def summarize_text(request):
     request_json = request.get_json()
@@ -24,24 +24,28 @@ def summarize_text(request):
             'error': str(e)
         }, 500
 
-# def ask_question_text(request):
-#     data = request.get_json()
-#     context = data['context']
-#     problem = data['problem']
-#     language = data.get('language', 'en') 
+def ask_question_text(request):
+    request_json = request.get_json()
 
-#     prompt = anthropic.HUMAN_PROMPT + context + problem + " response in" + language + anthropic.AI_PROMPT
+    if request_json and 'context' in request_json and 'question' in request_json:
+        context = request_json['context']
+        question = request_json['question']
+    else:
+        raise ValueError("JSON is invalid, or missing a 'context' or 'question' property")
+    
+    # TODO user validation
+    # TODO check if user has enough requests in pool
 
-#     completion = anthropic_client.completion(
-#         prompt=prompt, model="claude-v1.3-100k", max_tokens_to_sample=1000
-#     )["completion"]
-
-#     context += completion
-
-#     response = {
-#         'question': problem,
-#         'solution': completion,
-#         'context': context
-#     }
-
-#     return json.dumps(response), 200
+    try:
+        response = ask_question(context, question)
+        return {
+            'question': response['question'],
+            'answer': response['answer'],
+            'context': response['context']
+        }, 200
+    except Exception as e:
+        return {
+            'code': 'Could not answer the question.',
+            'message': 'Could not answer the question.',
+            'error': str(e)
+        }, 500
