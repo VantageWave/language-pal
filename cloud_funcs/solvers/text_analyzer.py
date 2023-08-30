@@ -18,19 +18,21 @@ def summarize(context, lang = "en"):
     if chat is None:
         chat = ChatAnthropic(anthropic_api_key = CLAUDE_API_KEY)
 
-    messages = [HumanMessage(content=f"""
-        {messagesFile["textSummarize1"]}
+    message = [HumanMessage(content=f"""
+        {messages["textSummarize1"]}
         <text>
         {context}
         </text>
-       {messagesFile["textSummarize2"]}
+       {messages["textSummarize2"]}
     """)]
 
-    chat_response = chat(messages)
+    chat_response = chat(message)
 
     print(chat_response.content)
 
     context += chat_response.content
+
+    messages.close()
 
     response = {
         'summary': chat_response.content,
@@ -48,7 +50,7 @@ def ask_question(context, question, lang = "en"):
     if chat is None:
         chat = ChatAnthropic(anthropic_api_key = CLAUDE_API_KEY)
 
-    messages = [
+    message = [
         HumanMessage(content=context),
         HumanMessage(content=f"""
             {messages["askQuestion"]}
@@ -56,11 +58,13 @@ def ask_question(context, question, lang = "en"):
         """)
     ]
 
-    chat_response = chat(messages)
+    chat_response = chat(message)
 
     print(chat_response.content)
 
     context += chat_response.content
+
+    messages.close()
 
     response = {
         'question': question,
