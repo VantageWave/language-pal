@@ -1,0 +1,5 @@
+{
+    "textSummarize1": "Here is a text, in <text> tags:",
+    "textSummarize2": "You are a human, and you want to summarize it. Please provide comprehensive summary.",
+    "askQuestion": "You are a human, and I want you to answer a question about this text. Please provide answer for the given question:"
+}
