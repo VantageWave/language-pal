@@ -32,7 +32,7 @@ def summarize(context, lang = "en"):
 
     context += chat_response.content
 
-    messages.close()
+    messagesFile.close()
 
     response = {
         'summary': chat_response.content,
@@ -64,7 +64,7 @@ def ask_question(context, question, lang = "en"):
 
     context += chat_response.content
 
-    messages.close()
+    messagesFile.close()
 
     response = {
         'question': question,
