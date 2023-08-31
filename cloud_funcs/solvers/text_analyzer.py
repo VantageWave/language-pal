@@ -1,4 +1,5 @@
 import os
+import json
 from langchain.chat_models import ChatAnthropic
 from langchain.schema import (
     HumanMessage,
@@ -7,26 +8,31 @@ from langchain.schema import (
 CLAUDE_API_KEY = os.environ.get('CLAUDE_API_KEY')
 chat = None
 
-def summarize(context):
+def summarize(context, lang = "en"):
     print("context", context)
     global chat
+
+    messagesFile = open(f"./i18n/${lang}.json")
+    messages = json.load(messagesFile)
 
     if chat is None:
         chat = ChatAnthropic(anthropic_api_key = CLAUDE_API_KEY)
 
-    messages = [HumanMessage(content=f"""
-        Here is a text, in <text> tags:
+    message = [HumanMessage(content=f"""
+        {messages["textSummarize1"]}
         <text>
         {context}
         </text>
-        You are a human, and you want to summarize it. Please provide comprehensive summary.
+       {messages["textSummarize2"]}
     """)]
 
-    chat_response = chat(messages)
+    chat_response = chat(message)
 
     print(chat_response.content)
 
     context += chat_response.content
+
+    messagesFile.close()
 
     response = {
         'summary': chat_response.content,
@@ -35,25 +41,30 @@ def summarize(context):
 
     return response
 
-def ask_question(context, question):
+def ask_question(context, question, lang = "en"):
     global chat
+
+    messagesFile = open(f"./i18n/${lang}.json")
+    messages = json.load(messagesFile)
 
     if chat is None:
         chat = ChatAnthropic(anthropic_api_key = CLAUDE_API_KEY)
 
-    messages = [
+    message = [
         HumanMessage(content=context),
         HumanMessage(content=f"""
-            You are a human, and I want you to answer a question about this text. Please provide answer for the given question:
+            {messages["askQuestion"]}
             {question}
         """)
     ]
 
-    chat_response = chat(messages)
+    chat_response = chat(message)
 
     print(chat_response.content)
 
     context += chat_response.content
+
+    messagesFile.close()
 
     response = {
         'question': question,
