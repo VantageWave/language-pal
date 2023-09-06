@@ -5,6 +5,7 @@ def summarize_text(request):
 
     if request_json and 'context' in request_json:
         context = request_json['context']
+        lang = request_json['lang']
     else:
         raise ValueError("JSON is invalid, or missing a 'context' property")
     
@@ -12,7 +13,7 @@ def summarize_text(request):
     # TODO check if user has enough requests in pool
 
     try:
-        response = summarize(context)
+        response = summarize(context, lang)
         return {
             'summary': response['summary'],
             'context': response['context']
@@ -30,6 +31,7 @@ def ask_question_text(request):
     if request_json and 'context' in request_json and 'question' in request_json:
         context = request_json['context']
         question = request_json['question']
+        lang = request_json['lang']
     else:
         raise ValueError("JSON is invalid, or missing a 'context' or 'question' property")
     
@@ -37,7 +39,7 @@ def ask_question_text(request):
     # TODO check if user has enough requests in pool
 
     try:
-        response = ask_question(context, question)
+        response = ask_question(context, question, lang)
         return {
             'question': response['question'],
             'answer': response['answer'],
