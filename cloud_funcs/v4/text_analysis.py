@@ -21,7 +21,6 @@ def summarize_text(request):
 
     checkTokens = check_user_tokens(user)
     if isinstance(checkTokens, (tuple)):
-        print(checkTokens)
         return checkTokens
 
     try:
