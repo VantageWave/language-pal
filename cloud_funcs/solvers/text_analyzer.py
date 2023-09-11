@@ -12,7 +12,7 @@ def summarize(context, lang = "en"):
     print("context", context)
     global chat
 
-    messagesFile = open(f"./i18n/${lang}.json")
+    messagesFile = open(f"/workspace/i18n/{lang}.json")
     messages = json.load(messagesFile)
 
     if chat is None:
@@ -23,7 +23,7 @@ def summarize(context, lang = "en"):
         <text>
         {context}
         </text>
-       {messages["textSummarize2"]}
+    {messages["textSummarize2"]}
     """)]
 
     chat_response = chat(message)
@@ -44,7 +44,7 @@ def summarize(context, lang = "en"):
 def ask_question(context, question, lang = "en"):
     global chat
 
-    messagesFile = open(f"./i18n/${lang}.json")
+    messagesFile = open(f"/workspace/i18n/{lang}.json")
     messages = json.load(messagesFile)
 
     if chat is None:
