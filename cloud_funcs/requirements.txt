@@ -2,3 +2,4 @@ functions-framework==3.*
 langchain
 firebase_admin
 anthropic
+openai

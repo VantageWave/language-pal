@@ -1,11 +1,11 @@
 import os
 import json
-from langchain.chat_models import ChatAnthropic
+from langchain.chat_models import ChatOpenAI, ChatAnthropic
 from langchain.schema import (
     HumanMessage,
 )
-
 CLAUDE_API_KEY = os.environ.get('CLAUDE_API_KEY')
+OPEANAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 chat = None
 
 def summarize(context, lang = "en"):
@@ -48,7 +48,7 @@ def ask_question(context, question, lang = "en"):
     messages = json.load(messagesFile)
 
     if chat is None:
-        chat = ChatAnthropic(anthropic_api_key = CLAUDE_API_KEY)
+        chat = ChatOpenAI(openai_api_key = OPEANAI_API_KEY)
 
     message = [
         HumanMessage(content=context),
